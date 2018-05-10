@@ -1,0 +1,46 @@
+include "getARGV.idp"
+
+int config = getARGV("--config", 1);
+int nn = getARGV("--nn", 100);                                              // number of meshing points
+
+if(config == 1)                                                             // Lid-driven cavity
+{
+    border fr1(t=0,1){x=t; y=0; label=3;}
+    border fr2(t=0,1){x=1; y=t; label=3;}
+    border fr3(t=1,0){x=t; y=1; label=1;}
+    border fr4(t=1,0){x=0; y=t; label=3;}
+
+    mesh Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    savemesh(Th, "meshes/mesh1.mesh");
+    plot(Th);
+}
+else if(config == 2)                                                        // Backward facing step
+{
+    border fr0(t=2,1){ x=0; y=t; label=1;}
+    border fr1(t=0,5){ x=t; y=1; label=3;}
+    border fr2(t=1,0){ x=5; y=t; label=3;}
+    border fr3(t=5,7){ x=t; y=0; label=3;}
+    border fr4(t=7,20){ x=t; y=0; label=3;}
+    border fr5(t=0,2){ x=20; y=t; label=2;}
+    border fr6(t=20,7){ x=t; y=2; label=3;}
+    border fr7(t=7,0){ x=t; y=2; label=3;}
+
+    mesh Th= buildmesh(fr0(1*nn) + fr1(5*nn) + fr2(1*nn) + fr3(2*nn) + fr4(11*nn) + fr5(2*nn) + fr6(11*nn) + fr7(7*nn));
+    savemesh(Th, "meshes/mesh2.mesh");
+    plot(Th);
+}
+else if(config == 3)                                                       	// Flow around cylinder
+{
+    real D=0.1, H=0.41, L = 2.2;
+    real cx0 = 0.2, cy0 = 0.2;                                              // center of cylinder
+
+    border fr1(t=0,L){x=t; y=0; label=3;}
+    border fr2(t=0,H){x=L; y=t; label=2;}
+    border fr3(t=L,0){x=t; y=H; label=3;}
+    border fr4(t=H,0){x=0; y=t; label=1;}
+    border fr5(t=1,0){x = cx0 + D*sin(2*pi*t)/2; y = cy0 + D*cos(2*pi*t)/2; label=3;}
+
+    mesh Th = buildmesh(fr1(22*nn)+fr2(7*nn)+fr3(22*nn)+fr4(7*nn)+fr5(-15*nn));
+    savemesh(Th, "meshes/mesh3.mesh");
+    plot(Th);
+}
