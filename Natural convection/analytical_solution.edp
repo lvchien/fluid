@@ -3,9 +3,20 @@ include "solvers.edp"
 
 real Pr = getARGV("--Pr", 1.0);																                                // the Prandtl number
 real tf = getARGV("--tf", 5e-2);																	                            // the final time
+string outputFolder = getARGV("--resu", "results/analytical_solution/");
 real Ra = 1;                                                                                  // the Rayleigh number
 
-ofstream re("results/analytical_solution/convergence_Pr1_P2_P1.txt");
+cout << "Results and figures will be saved in " << outputFolder << endl;
+system("mkdir "+outputFolder);
+
+/* Save commands */
+ofstream cmd(outputFolder+"command.sh");
+for (int ii = 0; ii < ARGV.n; ii++)
+  cmd << ARGV[ii] << " ";
+cmd << endl;
+cmd.flush;
+
+ofstream re(outputFolder + "demo.txt");
 re << "Pr^-1\ttf\t\tn\th\tdt\t 2_T_error\t2_T_rate\t2_u_error\t2_u_rate\t 1_T_error\t1_T_rate\t1_u_error\t1_u_rate\t 0_T_error\t0_T_rate\t0_u_error\t0_u_rate" << endl;
 
 int n;                                                  
@@ -18,7 +29,7 @@ for(int j = 0; j <= 11; j++)
 {
   for(int k=2;k<=7;k++)
   {
-    // Generate square mesh
+    /* Generate square mesh */
     n= 2^k;
     mesh Th=square(n,n);
 
