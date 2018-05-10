@@ -1,0 +1,78 @@
+include "getARGV.idp"
+include "solvers.edp"
+load "medit"
+
+real Pr = getARGV("--Pr", 1.0);																                                // the Prandtl number
+real Ra = getARGV("--Ra", 100000.0);	                                                        // the Rayleigh number
+real tf = getARGV("--tf", 5e-2);																	                            // the final time
+string outputFolder = getARGV("--resu", "results/cavity_driven_flow");
+int n = getARGV("--n", 100);                                                                  // the number of meshing points
+real dt = getARGV("--dt", 0.0001);                                                            // time step
+real tf = getARGV("--tf", 0.2);                                                               // the final time
+
+cout << "Results and figures will be saved in " << outputFolder << endl;
+system("mkdir \""+outputFolder + "\"");
+
+/* Save commands */
+ofstream cmd(outputFolder+"/command.sh");
+for (int ii = 0; ii < ARGV.n; ii++)
+  cmd << ARGV[ii] << " ";
+cmd << endl;
+cmd.flush;
+
+// Generate mesh
+mesh Th = square(n,n);
+
+// Difine finite element spaces
+fespace Xh(Th,P2);
+fespace Mh(Th,P1);
+
+// Declare constants and variables
+Xh Qn = 0;
+Xh vbc1x = 0, vbc1y = 0, vbc2x = 0, vbc2y = 0, vbc3x = 0, vbc3y = 0, vbc4x = 0, vbc4y = 0;
+Xh tbc1 = 0, tbc2 = 0.5, tbc3 = 0, tbc4 = 0.5;
+
+Xh u1,v1,u2,v2,up1,up2,uu,v,T,Told;
+Xh psi,phi;
+Mh p,q;
+real epsr = 1e-8;
+
+int i = 0;
+real alpha = 1./dt;
+int imax = tf/dt;
+
+ofstream re(outputFolder + "/velocity.txt");
+
+// Main code
+for (i = 0; i <= imax; i++)
+{
+	Told = T;
+	up1 = u1;
+	up2 = u2;
+	LTD;
+	NS;
+  plot([u1,u2]);
+  plot(T, fill=0);
+
+  if ((i == 30)||(i == 100)||(i == 250)||(i == 1000)||(i == 2000))
+  {
+    streamlines;
+    plot(psi,fill=0);
+
+    savemesh(Th,outputFolder + "thermal" + string(i)+".mesh");
+    savesol(outputFolder + "/thermal"+ string(i) + ".sol",Th,T);
+
+    savemesh(Th,outputFolder + "/pressure"+string(i)+".mesh");
+    savesol(outputFolder + "/pressure"+ string(i) + ".sol", Th, p);
+
+    savemesh(Th,outputFolder + "/streamlines"+string(i)+".mesh");
+    savesol(outputFolder + "/streamlines"+ string(i) + ".sol", Th, psi);
+
+    savemesh(Th,outputFolder + "/velocity" + string(i) + ".mesh");
+    savesol(outputFolder + "/velocity"+ string(i) + ".sol", Th, [u1,u2]);
+    
+    uu=sqrt(u1^2+u2^2);
+    re << i*dt << "\t" << uu[].max << endl;
+  } ;
+} ;
+re.flush;
