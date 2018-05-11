@@ -9,6 +9,3 @@ You can download the zip at [here](https://github.com/lvchien/fluid/archive/mast
 ```
 git clone https://github.com/lvchien/fluid.git
 ```
-### Optional installation
-Any softwares are used to visualize:
-1. medit
