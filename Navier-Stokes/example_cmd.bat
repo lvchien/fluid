@@ -1,1 +1,0 @@
-Freefem++ main.edp --config 1 --order 3 --nu 1e-4 --dt 0.01 --T 200 --resu resu\Liddriven\h25\DC1st_Rey10000_dt0.01_T200 --nbp 100 --ni 3000 
