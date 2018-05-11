@@ -19,7 +19,7 @@ where *config* arguments are listed below:
 --n           the number of meshing points
 --dt          the time step (second)
 ```
-An example command for **analytical solution** test as follow:
+An example command for **analytical solution** test is as follow:
 ```
 Freefem++ analytical_solution.edp --Pr 1.0 --tf 0.05 --resu "results\analytical_solution"
 ```
