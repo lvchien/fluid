@@ -41,6 +41,7 @@ real alpha = 1./dt;
 int imax = tf/dt;
 
 ofstream re(outputFolder + "/velocity.txt");
+re << "t" << "\t" << "umax" << endl;
 
 // Main code
 for (i = 0; i <= imax; i++)
