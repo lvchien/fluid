@@ -19,7 +19,7 @@ and numerical parameters are listed below:
 --nu          the constant kinematic viscosity of the fluid
 --sigma       the stabilizing factor of defect-correction method
 ```
-An example command for Lid-driven cavity test is as follow:
+An example command for **Lid-driven cavity** test is as follow:
 ```
 Freefem++ main.edp --config 1 --dc 1 --resu ""results\Lid-driven cavity" --T 100 --nu 1e-4 --nbp 100
 ```
