@@ -51,13 +51,13 @@ for (i = 0; i <= imax; i++)
 	up2 = u2;
 	LTD;
 	NS;
-  plot([u1,u2], cmm = "Iterator " + string(i) + "/" + string(imax));
-  plot(T, fill=0, cmm = "Iterator " + string(i) + "/" + string(imax));
+  plot([u1,u2], cmm = "Velocity: iteration " + string(i) + "/" + string(imax));
+  plot(T, fill=0, cmm = "Thermal: iteration " + string(i) + "/" + string(imax));
 
   if ((i == 30)||(i == 100)||(i == 250)||(i == 1000)||(i == 2000))
   {
     streamlines;
-    plot(psi, fill=0, cmm = "Iterator " + string(i) + "/" + string(imax));
+    plot(psi, fill=0, cmm = "Streamlines: iteration " + string(i) + "/" + string(imax));
 
     savemesh(Th,outputFolder + "/thermal_" + string(i)+".mesh");
     savesol(outputFolder + "/thermal_"+ string(i) + ".sol",Th,T);
