@@ -3,11 +3,11 @@ include "solvers.edp"
 
 real Pr = getARGV("--Pr", 1.0);																                                // the Prandtl number
 real tf = getARGV("--tf", 5e-2);																	                            // the final time
-string outputFolder = getARGV("--resu", "results/analytical_solution");
+string outputFolder = getARGV("--resu", "results\analytical_solution");
 real Ra = 1;                                                                                  // the Rayleigh number
 
 cout << "Results and figures will be saved in " << outputFolder << endl;
-system("mkdir \""+outputFolder+"\"");
+system("mkdir "+outputFolder);
 
 /* Save commands */
 ofstream cmd(outputFolder+"/command.sh");
