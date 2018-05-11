@@ -9,9 +9,9 @@ In this project, 2 test cases are investigated, including:
 ### Usage
 The general syntax is:
 ```
-Freefem++ name_of_test.edp [--config value] 
+Freefem++ name_of_test.edp [--args value] 
 ```
-where *config* arguments are listed below:
+where arguments are listed below:
 ```
 --Pr          the Prandtl constant
 --Ra          the Rayleigh constant
