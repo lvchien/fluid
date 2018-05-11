@@ -13,10 +13,10 @@ Freefem++ name_of_test.edp [--args value]
 ```
 where arguments are listed below:
 ```
+--resu        the results directory (created if non-existent)
 --Pr          the Prandtl constant
 --Ra          the Rayleigh constant
 --tf          the final time (second)
---resu        the results directory (created if non-existent)
 --n           the number of meshing points
 --dt          the time step (second)
 ```
