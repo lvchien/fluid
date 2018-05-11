@@ -1,2 +1,25 @@
-# Numerical scheme for natural convection problems
-In this paper, we propose a numerical scheme for natural convection problem based on the method of characteristics and finite element. Our approach regards the motion of an incompressible viscous fluid governed by Navier-Stokes equations due to thermal effects. The unconditional stability analysis and the error analysis with convergence order are given. Some numerical test cases on analytical solution, driven cavity flow,... are investigated to assess the solver. The programs are written in FreeFem++ using the Finite Element method. 
+# Natural convection problems
+
+### Structure
+In this project, 2 test cases is investigated, including:
+1. **Analytical solution test**
+2. **Driven cavity flow test**.
+
+### Usage
+The general syntax is
+```
+Freefem++ name_of_test.edp [--config value] 
+```
+where *config* arguments are listed below:
+```
+--Pr          the Prandtl constant
+--Ra          the Rayleigh constant
+--tf          the final time (second)
+--resu        the results directory (created if non-existent)
+--n           the number of meshing points
+--dt          the time step (second)
+```
+An example command for **analytical solution** test as follow:
+```
+Freefem++ analytical_solution.edp --Pr 1.0 --tf 0.05 --resu "results\analytical_solution"
+```
