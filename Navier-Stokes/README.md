@@ -6,7 +6,7 @@ Freefem++ main.edp [--config numconfig] [--dc numoption] [--resu resfolder] [--a
 ```
 where basic options are
 ```
---config      the test case (1 for Lid-driven cavity, 2 for Backward facing step, 3 for Cyliner and 4 for Stokes flow around cyliner)
+--config      the test case (1 for Lid-driven cavity, 2 for Backward facing step, 3 for Cylider and 4 for Stokes flow around cylider)
 --order       the config of defect-correction (DC) methods (1 for using DC or 0 for not DC)
 --resu        the results directory (created if non-existent)
 ```
