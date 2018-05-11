@@ -1,4 +1,4 @@
-# Natural convection problems
+# Natural convection problem
 
 ### Structure
 In this project, 2 test cases are investigated, including:
