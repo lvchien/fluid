@@ -6,7 +6,7 @@ In this project, 2 test cases are investigated, including:
 2. **Driven cavity flow test**.
 
 ### Usage
-The general syntax is
+The general syntax is:
 ```
 Freefem++ name_of_test.edp [--config value] 
 ```
