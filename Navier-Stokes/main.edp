@@ -4,7 +4,7 @@ load "medit";
 
 int config = getARGV("--config", 1);                        // the case of test (1, 2 or 3)
 int dc = getARGV("--dc", 1);                                // the config of DC methods (1 for DC or 0 for not DC)
-real nu = getARGV("--nu", 1e-3);                            // nu parameter
+real nu = getARGV("--nu", 1e-3);                            // the constant kinematic viscosity of the fluid
 real T = getARGV("--T", 100);                               // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 real sigma = getARGV("--sigma", 0.4*Th.hmax);               // the stabilizing factor of defect-correction method
