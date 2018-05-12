@@ -10,7 +10,7 @@ real dt = getARGV("--dt", 0.01);;                           // the time step (se
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
 
 // Make output
-string outputFolder = getARGV("--resu", "results\Lid-driven cavity");
+string outputFolder = getARGV("--resu", "results\Lid-driven_cavity");
 cout << "Results and figures will be saved in " << outputFolder << endl;
 system("mkdir "+outputFolder);
 

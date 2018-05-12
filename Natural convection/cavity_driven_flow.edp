@@ -28,8 +28,8 @@ fespace Mh(Th,P1);
 
 // Declare constants and variables
 Xh Qn = 0;
-Xh vbc1x = 0, vbc1y = 0, vbc2x = 0, vbc2y = 0, vbc3x = 0, vbc3y = 0, vbc4x = 0, vbc4y = 0;
-Xh tbc1 = 0, tbc2 = -0.5, tbc3 = 0, tbc4 = 0.5;
+Xh vbc1x = 0.0, vbc1y = 0.0, vbc2x = 0.0, vbc2y = 0.0, vbc3x = 0.0, vbc3y = 0.0, vbc4x = 0.0, vbc4y = 0.0;
+Xh tbc1 = 0.0, tbc2 = -0.5, tbc3 = 0.0, tbc4 = 0.5;
 
 Xh u1,v1,u2,v2,up1,up2,uu,v,T,Told;
 Xh psi,phi;
