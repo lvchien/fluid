@@ -4,7 +4,7 @@ load "medit";
 
 int config = getARGV("--config", 1);                        // the case of test (1, 2 or 3)
 int dc = getARGV("--dc", 1);                                // the config of DC methods (1 for DC or 0 for not DC)
-real nu = getARGV("--nu", 1e-3);                            // nu parameter
+real nu = getARGV("--nu", 1e-3);                            // the constant kinematic viscosity of the fluid
 real T = getARGV("--T", 100);                               // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
