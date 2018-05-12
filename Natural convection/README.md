@@ -1,4 +1,5 @@
 # Natural convection problem
+This project is a implementation of numerical scheme for natural convection problems, based on the method of characteristics and finite element method.
 
 ### Structure
 In this project, 2 test cases are investigated, including:

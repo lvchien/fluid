@@ -1,4 +1,7 @@
 # Navier-Stokes equation
+
+This project is a implementation of numerical scheme for natural convection problems, based on the method of characteristics and finite element method.
+
 ### Usage
 The general syntax is:
 ```
@@ -21,5 +24,5 @@ and numerical parameters are listed below:
 ```
 An example command for **Lid-driven cavity** test is as follow:
 ```
-Freefem++ main.edp --config 1 --dc 1 --resu "results\Lid-driven cavity" --T 100 --nu 1e-4 --nbp 100
+Freefem++ main.edp --config 1 --dc 1 --resu "results\Lid-driven" --T 100 --nu 1e-4 --nbp 100
 ```
