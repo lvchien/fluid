@@ -24,4 +24,3 @@ An example command for **analytical solution** test is as follow:
 ```
 Freefem++ analytical_solution.edp --Pr 1.0 --tf 0.05 --resu "results\analytical_solution"
 ```
-Any suggestions or contributions are welcome. If you have any questions or want to create contributive brands, feel free to contact me at v.chienle@gmail.com.
