@@ -36,7 +36,7 @@ fespace Xh(Th,P2);                                                          // d
 fespace Mh(Th,P1);                                                          // definition of the pressure space
 
 // Declare variables
-Xh ux, uy, vx, vy, upx, upy, uppx, uppy, u0x, u0y, up0x, up0y;
+Xh ux, uy, vx, vy, upx, upy, u0x, u0y, up0x, up0y;
 Xh clx, cly, w, psi, phi;
 Mh p,q, p0;
 
@@ -94,8 +94,6 @@ else
 {
     for (i = 1; i <= imax; i++)
     {
-        uppx = upx;
-        uppy = upy;
         upx = ux;
         upy = uy;
 		up0x = u0x;
