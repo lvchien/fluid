@@ -1,4 +1,7 @@
 # Navier-Stokes equation
+
+This project is a implementation of numerical scheme for natural convection problems, based on the method of characteristics and finite element method.
+
 ### Usage
 The general syntax is:
 ```
