@@ -7,7 +7,6 @@ int dc = getARGV("--dc", 1);                                // the config of DC 
 real nu = getARGV("--nu", 1e-3);                            // nu parameter
 real T = getARGV("--T", 100);                               // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
-real sigma = getARGV("--sigma", 0.4*Th.hmax);               // the stabilizing factor of defect-correction method
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
 
 // Make output
@@ -29,6 +28,8 @@ cout << "Loading mesh " << meshname << "...";
 Th = readmesh(meshname);
 cout << "done." << endl;
 cout.flush;
+
+real sigma = getARGV("--sigma", 0.4*Th.hmax);                               // the stabilizing factor of defect-correction method
 
 // Finite element spaces
 fespace Xh(Th,P2);                                                          // definition of the velocity component space
@@ -102,7 +103,7 @@ else
 
         if(dc==0)
             NS1stOrder;
-        else if(dc==1)
+        if(dc==1)
             NS1stOrderDC;
             
         Streamlines;
@@ -127,15 +128,15 @@ else
 // Get velocity of flow at points in vertical and horizontal lines that pass center of cavity
 real dd = 1.0/nbp;
 
-ofstream fx(outputFolder + "/xprof");
+ofstream fxprof(outputFolder + "/xprof");
 for(i = 0; i <= nbp; i++)
-    fx << i*dd << " " << ux(0.5, i*dd) << endl;
-fx.flush;
+    fxprof << i*dd << " " << ux(0.5, i*dd) << endl;
+fxprof.flush;
 
-ofstream fy(outputFolder + "/yprof");
+ofstream fyprof(outputFolder + "/yprof");
 for(i = 0; i <= nbp; i++)
-    fy << i*dd << " " << uy(i*dd, 0.5)  << endl;
-fy.flush;
+    fyprof << i*dd << " " << uy(i*dd, 0.5)  << endl;
+fyprof.flush;
 
 
 // Find center of primary vortex

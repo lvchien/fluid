@@ -27,9 +27,9 @@ macro NS1stOrderDC()
         - dx(u0x)*q - dy(u0y)*q
         )
 	- int2d(Th) (fx*vx + fy*vy)
-    + int2d(Th) ( 
-        - alpha*convect([up0x,up0y], -dt, up0x)*vx 
-        - alpha*convect([up0x,up0y], -dt, up0y)*vy)
+    - int2d(Th) ( 
+        alpha*convect([up0x,up0y], -dt, up0x)*vx 
+        + alpha*convect([up0x,up0y], -dt, up0y)*vy)
     + on(1, u0x = clx, u0y = cly)
     + on(3, u0x = 0, u0y = 0);
 
@@ -38,13 +38,13 @@ macro NS1stOrderDC()
         alpha*(ux*vx + uy*vy)
         + (nu+sigma*Th.hmax) * (dx(ux)*dx(vx) + dy(ux)*dy(vx) +  dx(uy)*dx(vy) + dy(uy)*dy(vy))
         - p*q*1e-8
-        - p*dx(vx)+ p*dy(vy)
-        - dx(ux)*q+ dy(uy)*q
+        - p*dx(vx) - p*dy(vy)
+        - dx(ux)*q - dy(uy)*q
         )
 	- int2d(Th) (fx*vx + fy*vy)
-    + int2d(Th) ( 
-        - alpha*convect([upx,upy], -dt, upx)*vx 
-        - alpha*convect([upx,upy], -dt, upy)*vy 
+    - int2d(Th) ( 
+        alpha*convect([upx,upy], -dt, upx)*vx 
+        + alpha*convect([upx,upy], -dt, upy)*vy 
         )
     - int2d(Th) ( 
         sigma*Th.hmax*(dx(u0x)*dx(vx) + dy(u0x)*dy(vx) +  dx(u0y)*dx(vy) + dy(u0y)*dy(vy)) 
@@ -69,7 +69,7 @@ macro Stokes()
 
 macro Streamlines()
 {
-    solve Streamlines(psi, phi) =
+    solve strl(psi, phi) =
         int2d(Th)(dx(psi)*dx(phi) + dy(psi)*dy(phi))
         + int2d(Th)(-phi*(dy(ux)-dx(uy)))
         + on(1,2,3, psi=0);	
