@@ -9,3 +9,5 @@ You can download the zip at [here](https://github.com/lvchien/fluid/archive/mast
 ```
 git clone https://github.com/lvchien/fluid.git
 ```
+
+Any suggestions or contributions are welcome. If you have any questions or want to create contributive brands, feel free to contact me at v.chienle@gmail.com.
