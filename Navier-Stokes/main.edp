@@ -8,6 +8,8 @@ real nu = getARGV("--nu", 1e-3);                            // the constant kine
 real T = getARGV("--T", 100);                               // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
+int save = getARGV("--save", 0);                            // save results to .sol files configuration (1 for save, 0 for non-save)
+int ns = getARGV("--ns", 100);                             // number of step to save results once
 
 // Make output
 string outputFolder = getARGV("--resu", "results\Lid-driven_cavity");
@@ -85,10 +87,20 @@ if (config == 4)
     plot(w, cmm = "Vorticity");		
     plot(psi, cmm = "Streamlines");		
 
-    savesol(outputFolder+"/velocity.sol", Th, [ux, uy]);		
-    savesol(outputFolder+"/pressure.sol", Th, p);
-    savesol(outputFolder+"/vorticity.sol", Th, w);
-    savesol(outputFolder+"/streamlines.sol", Th, psi);
+    if(save == 1)
+    {
+        savesol(outputFolder+"/velocity.sol", Th, [ux, uy]);	
+        savemesh(Th, outputFolder + "/velocity.mesh");	
+
+        savesol(outputFolder+"/pressure.sol", Th, p);
+        savemesh(Th, outputFolder + "/pressure.mesh");	
+
+        savesol(outputFolder+"/vorticity.sol", Th, w);
+        savemesh(Th, outputFolder + "/vorticity.mesh");	
+
+        savesol(outputFolder+"/streamlines.sol", Th, psi);
+        savemesh(Th, outputFolder + "/streamlines.mesh");	
+    }
 }
 else
 {
@@ -107,18 +119,28 @@ else
         Streamlines;
         w = -dy(ux) + dx(uy);
 
-        if(i % 100 == 0)
+        if(i % 10 == 0)
         {
             plot([ux, uy], cmm="Velocity: iteration "+i+"/"+imax);
 			plot(p, cmm="Pressure: iteration "+i+"/"+imax);	
 			plot(w, cmm="Vorticity: iteration "+i+"/"+imax);		
 			plot(psi, cmm="Streamlines: iteration "+i+"/"+imax);			
-
-            savesol(outputFolder+"/velocity." + i/100 + ".sol", Th, [ux, uy]);		
-            savesol(outputFolder+"/pressure." + i/100 +".sol", Th, p);
-            savesol(outputFolder+"/vorticity." + i/100 + ".sol", Th, w);
-            savesol(outputFolder+"/streamlines." + i/100 + ".sol", Th, psi);
         }
+        if(i % ns == 0)
+            if(save == 1)
+            {
+                savesol(outputFolder+"/velocity." + i/ns + ".sol", Th, [ux, uy]);	
+                savemesh(Th, outputFolder + "/velocity."+ i/ns +".mesh");	
+
+                savesol(outputFolder+"/pressure." + i/ns +".sol", Th, p);
+                savemesh(Th, outputFolder + "/pressure."+ i/ns +".mesh");
+
+                savesol(outputFolder+"/vorticity." + i/ns + ".sol", Th, w);
+                savemesh(Th, outputFolder + "/vorticity."+ i/ns +".mesh");
+
+                savesol(outputFolder+"/streamlines." + i/ns + ".sol", Th, psi);
+                savemesh(Th, outputFolder + "/streamlines."+ i/ns +".mesh");
+            }
     }
 }
 

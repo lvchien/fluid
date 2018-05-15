@@ -27,8 +27,8 @@ macro NS1stOrderDC()
             - dx(u0x)*q - dy(u0y)*q
             )
         - int2d(Th) (fx*vx + fy*vy)
-        - int2d(Th) (alpha*convect([upx,upy], -dt, up0x)*vx 
-                    + alpha*convect([upx,upy], -dt, up0y)*vy)
+        - int2d(Th) (alpha*convect([upx,upy], -dt, upx)*vx 
+                    + alpha*convect([upx,upy], -dt, upy)*vy)
         + on(1, u0x = clx, u0y = cly)
         + on(3, u0x = 0, u0y = 0);
 
