@@ -10,18 +10,18 @@ int bc = 0;                                                                     
 cout << "Results and figures will be saved in " << outputFolder << endl;
 system("mkdir "+outputFolder);
 
-ofstream re(outputFolder + "/convergence_Pr0.0005_P2_P1.txt");
+ofstream re(outputFolder + "/convergence_Pr1_P2_P1_7.txt");
 re << "Pr^-1\ttf\t\tn\th\tdt\t 2_T_error\t2_T_rate\t2_u_error\t2_u_rate\t 1_T_error\t1_T_rate\t1_u_error\t1_u_rate\t 0_T_error\t0_T_rate\t0_u_error\t0_u_rate" << endl;
 
 int n;                                                  
 real errT2 = 0, errTp2 = 0, erru2 = 0, errup2 = 0, errT1 = 0, errTp1 = 0, erru1 = 0, errup1 = 0, errT0 = 0, errTp0 = 0, erru0 = 0, errup0 = 0;
 
-real[int] iter(3); 
-iter = [10000, 20000, 50000];                                                     // number of time intervals
+real[int] iter(1); 
+iter = [50000];                                                     // number of time intervals
 
-for(int j = 0; j <= 2; j++)
+for(int j = 0; j <= 0; j++)
 {
-  for(int k=2;k<=7;k++)
+  for(int k=7;k<=7;k++)
   {
     // Generate square mesh 
     n= 2^k;
