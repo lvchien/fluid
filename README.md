@@ -11,6 +11,6 @@ git clone https://github.com/lvchien/fluid.git
 ```
 
 ### Authors
-This program has been developed by Le Van Chien, Tran Minh Tam and Ta Thi Thanh Mai (School of Applied Mathematics and Informatics, Hanoi University of Science and Technology)
+This program has been developed by Le Van Chien, Tran Minh Tam and Ta Thi Thanh Mai (School of Applied Mathematics and Informatics, Hanoi University of Science and Technology).
 
 Any suggestions or contributions are welcome. If you have any questions or want to create contributive brands, feel free to contact us at v.chienle@gmail.com.
