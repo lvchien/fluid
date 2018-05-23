@@ -63,9 +63,9 @@ else if (config == 3)                           // Flow around cylinder
 {                     
     real D = 0.1, H = 0.41;
     real Um = 150;
-    clx = 4.*Um*y*(H-y)/(H*H);
+    clx = 4.*Um*y*(H-y)/(H^2);
     cly = 0.;
-    int nn = getARGV("--nn", 15);               // number of meshing points                  
+    int nn = getARGV("--nn", 30);               // number of meshing points                  
     dt = D/nn/Um;
 }
 else if(config == 4)                            // Cylinder Stokes
