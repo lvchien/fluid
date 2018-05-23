@@ -9,7 +9,7 @@ real T = getARGV("--T", 100);                               // the final time (s
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
 int save = getARGV("--save", 0);                            // save results to .sol files configuration (1 for save, 0 for non-save)
-int ns = getARGV("--ns", 100);                             // number of step to save results once
+int ns = getARGV("--ns", 100);                              // number of step to save results once
 
 // Make output
 string outputFolder = getARGV("--resu", "results\Lid-driven_cavity");
@@ -42,12 +42,6 @@ Xh ux, uy, vx, vy, upx, upy, u0x, u0y, up0x, up0y;
 Xh clx, cly, w, psi, phi;
 Mh p,q, p0;
 
-Xh fx = 0.0, fy = 0.0;
-real alpha = 1.0/dt;
-int i = 0;
-int imax = T/dt;
-
-
 // Set boundary conditions
 if(config == 1)                                 // Lid - driven cavity
 {
@@ -62,7 +56,7 @@ else if(config == 2)                            // Backward facing step
 else if (config == 3)                           // Flow around cylinder
 {                     
     real D = 0.1, H = 0.41;
-    real Um = 150;
+    real Um = getARGV("--Um", 1.5);
     clx = 4.*Um*y*(H-y)/(H^2);
     cly = 0.;
     int nn = getARGV("--nn", 30);               // number of meshing points                  
@@ -72,9 +66,14 @@ else if(config == 4)                            // Cylinder Stokes
 {
     real D = 0.1, H = 0.41;
     real Um = 1.5;
-    clx = 4.*Um*y*(H-y)/(H*H);
+    clx = 4.*Um*y*(H-y)/(H^2);
     cly = 0.;
 }
+
+Xh fx = 0.0, fy = 0.0;
+real alpha = 1.0/dt;
+int i = 0;
+int imax = T/dt;
 
 if (config == 4)
 {
