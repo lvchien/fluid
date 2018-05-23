@@ -17,11 +17,11 @@ int n;
 real errT2 = 0, errTp2 = 0, erru2 = 0, errup2 = 0, errT1 = 0, errTp1 = 0, erru1 = 0, errup1 = 0, errT0 = 0, errTp0 = 0, erru0 = 0, errup0 = 0;
 
 real[int] iter(1); 
-iter = [50000];                                                     // number of time intervals
+iter = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000];                                                     // number of time intervals
 
 for(int j = 0; j <= 0; j++)
 {
-  for(int k=7;k<=7;k++)
+  for(int k=2;k<=7;k++)
   {
     // Generate square mesh 
     n= 2^k;
