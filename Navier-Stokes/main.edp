@@ -144,50 +144,52 @@ else
     }
 }
 
+if (config == 1)
+{
+    // Get velocity of flow at points in vertical and horizontal lines that pass center of cavity
+    real dd = 1.0/nbp;
 
-// Get velocity of flow at points in vertical and horizontal lines that pass center of cavity
-real dd = 1.0/nbp;
+    ofstream fxprof(outputFolder + "/xprof");
+    for(i = 0; i <= nbp; i++)
+        fxprof << i*dd << " " << ux(0.5, i*dd) << endl;
+    fxprof.flush;
 
-ofstream fxprof(outputFolder + "/xprof");
-for(i = 0; i <= nbp; i++)
-    fxprof << i*dd << " " << ux(0.5, i*dd) << endl;
-fxprof.flush;
-
-ofstream fyprof(outputFolder + "/yprof");
-for(i = 0; i <= nbp; i++)
-    fyprof << i*dd << " " << uy(i*dd, 0.5)  << endl;
-fyprof.flush;
+    ofstream fyprof(outputFolder + "/yprof");
+    for(i = 0; i <= nbp; i++)
+        fyprof << i*dd << " " << uy(i*dd, 0.5)  << endl;
+    fyprof.flush;
 
 
-// Find center of primary vortex
-real minx = 0.5;
-real maxx = 0.8;
-real miny = 0.5;
-real maxy = 0.8;
+    // Find center of primary vortex
+    real minx = 0.5;
+    real maxx = 0.8;
+    real miny = 0.5;
+    real maxy = 0.8;
 
-real centerx = minx;
-real centery = miny;
+    real centerx = minx;
+    real centery = miny;
 
-int ni = getARGV("--ni", 300);
-real slx = (maxx - minx)/ni;
-real sly = (maxy - miny)/ni;
+    int ni = getARGV("--ni", 300);
+    real slx = (maxx - minx)/ni;
+    real sly = (maxy - miny)/ni;
 
-real minu = ux(minx, miny)^2 + uy(minx, miny)^2;
+    real minu = ux(minx, miny)^2 + uy(minx, miny)^2;
 
-for (int j = 1; j <= ni; j++)
-    for(int k = 1; k <= ni; k++)
-    {
-        real tempx = minx + j*slx;
-        real tempy = miny + k*sly;
-        real tempu = ux(tempx, tempy)^2 + uy(tempx, tempy)^2;
-        if(tempu < minu)
-            {
-                minu = tempu;
-                centerx = tempx;
-                centery = tempy;
-            }
-    }
+    for (int j = 1; j <= ni; j++)
+        for(int k = 1; k <= ni; k++)
+        {
+            real tempx = minx + j*slx;
+            real tempy = miny + k*sly;
+            real tempu = ux(tempx, tempy)^2 + uy(tempx, tempy)^2;
+            if(tempu < minu)
+                {
+                    minu = tempu;
+                    centerx = tempx;
+                    centery = tempy;
+                }
+        }
 
-ofstream ct(outputFolder + "/center.txt");
-ct << centerx << " " << centery  << endl;
-ct.flush;
+    ofstream ct(outputFolder + "/center.txt");
+    ct << centerx << " " << centery  << endl;
+    ct.flush;
+}
