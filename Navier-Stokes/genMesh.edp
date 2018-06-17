@@ -10,14 +10,9 @@ mesh Th;
 
 if(config == 0)                                                             // Analytical solution
 {
-    border fr1(t=0,1){x=t; y=0; label=1;}
-    border fr2(t=0,1){x=1; y=t; label=2;}
-    border fr3(t=1,0){x=t; y=1; label=3;}
-    border fr4(t=1,0){x=0; y=t; label=4;}
-
-    Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    Th = square(nn, nn);
 }
-else if(config == 1)                                                             // Lid-driven cavity
+else if(config == 1)                                                        // Lid-driven cavity
 {
     border fr1(t=0,1){x=t; y=0; label=2;}
     border fr2(t=0,1){x=1; y=t; label=2;}
