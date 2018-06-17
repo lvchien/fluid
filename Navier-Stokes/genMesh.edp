@@ -45,7 +45,7 @@ else if(config == 3)                                                       	// F
     border fr4(t=H,0){x=0; y=t; label=1;}
     border fr5(t=1,0){x = cx0 + D*sin(2*pi*t)/2; y = cy0 + D*cos(2*pi*t)/2; label=3;}
 
-    mesh Th = buildmesh(fr1(5*nn)+fr2(nn)+fr3(5*nn)+fr4(nn)+fr5(-3*nn));            // ff doc P.270
+    Th = buildmesh(fr1(5*nn)+fr2(nn)+fr3(5*nn)+fr4(nn)+fr5(-3*nn));         // ff doc P.270
 }
 
 savemesh(Th, "meshes/"+meshname+".mesh");
