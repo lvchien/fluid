@@ -6,6 +6,8 @@ int nn = getARGV("--nn", 100);                                              // n
 
 // set label = 10 for Neumann boundary, 1,..., 9 for Dirichlet boundary
 
+mesh Th;
+
 if(config == 0)                                                             // Analytical solution
 {
     border fr1(t=0,1){x=t; y=0; label=1;}
@@ -13,7 +15,7 @@ if(config == 0)                                                             // A
     border fr3(t=1,0){x=t; y=1; label=3;}
     border fr4(t=1,0){x=0; y=t; label=4;}
 
-    mesh Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
 }
 else if(config == 1)                                                             // Lid-driven cavity
 {
@@ -22,7 +24,7 @@ else if(config == 1)                                                            
     border fr3(t=1,0){x=t; y=1; label=1;}
     border fr4(t=1,0){x=0; y=t; label=2;}
 
-    mesh Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
 }
 else if(config == 2)                                                        // Backward facing step
 {
@@ -35,7 +37,7 @@ else if(config == 2)                                                        // B
     border fr6(t=20,7){ x=t; y=2; label=2;}
     border fr7(t=7,0){ x=t; y=2; label=2;}
 
-    mesh Th= buildmesh(fr0(1*nn) + fr1(5*nn) + fr2(1*nn) + fr3(2*nn) + fr4(11*nn) + fr5(2*nn) + fr6(11*nn) + fr7(7*nn));
+    Th= buildmesh(fr0(1*nn) + fr1(5*nn) + fr2(1*nn) + fr3(2*nn) + fr4(11*nn) + fr5(2*nn) + fr6(11*nn) + fr7(7*nn));
 }
 else if(config == 3)                                                       	// Flow around cylinder
 {
