@@ -1,5 +1,5 @@
 // Solvers
-macro NS1stOrder()
+macro NavierStokes()
 {
     solve NS ([ux, uy, p], [vx, vy, q], init = i) =
         int2d(Th)(
@@ -11,12 +11,14 @@ macro NS1stOrder()
         - int2d(Th) (fx*vx + fy*vy)
         - int2d(Th) (alpha*convect([upx,upy], -dt, upx)*vx 
                     + alpha*convect([upx,upy], -dt, upy)*vy)
-        + on(1, ux = clx, uy = cly)
-        + on(3, ux = 0, uy = 0);
+        + on(D1, ux = dcx1, uy = dcy1)
+        + on(D2, ux = dcx2, uy = dcy2)
+        + on(D3, ux = dcx3, uy = dcy3)
+        + on(D4, ux = dcx4, uy = dcy4);
 }//EOM
 
 
-macro NS1stOrderDC()
+macro NavierStokesDC()
 {
     solve NS0 ([u0x, u0y, p0], [vx, vy, q], init = i) =
         int2d(Th)(
@@ -27,10 +29,12 @@ macro NS1stOrderDC()
             - dx(u0x)*q - dy(u0y)*q
             )
         - int2d(Th) (fx*vx + fy*vy)
-        - int2d(Th) (alpha*convect([upx,upy], -dt, upx)*vx 
-                    + alpha*convect([upx,upy], -dt, upy)*vy)
-        + on(1, u0x = clx, u0y = cly)
-        + on(3, u0x = 0, u0y = 0);
+        - int2d(Th) (alpha*convect([upx,upy], -dt, up0x)*vx 
+                    + alpha*convect([upx,upy], -dt, up0y)*vy)
+        + on(D1, u0x = dcx1, u0y = dcy1)
+        + on(D2, u0x = dcx2, u0y = dcy2)
+        + on(D3, u0x = dcx3, u0y = dcy3)
+        + on(D4, u0x = dcx4, u0y = dcy4)
 
     solve NS1 ([ux,uy,p], [vx,vy,q], init=i) =
         int2d(Th)(
@@ -45,22 +49,11 @@ macro NS1stOrderDC()
         - int2d(Th) ( 
             sigma*Th.hmax*(dx(u0x)*dx(vx) + dy(u0x)*dy(vx) + dx(u0y)*dx(vy) + dy(u0y)*dy(vy)) 
             ) 
-        + on(1, ux = clx, uy = cly)
-        + on(3, ux = 0, uy = 0);
+        + on(D1, ux = dcx1, uy = dcy1)
+        + on(D2, ux = dcx2, uy = dcy2)
+        + on(D3, ux = dcx3, uy = dcy3)
+        + on(D4, ux = dcx4, uy = dcy4);
 } // EOM
-
-macro Stokes()
-{
-    solve st([ux, uy, p], [vx, vy, q], init=i) =
-        int2d(Th)(
-                nu*(dx(ux)*dx(vx) + dy(ux)*dy(vx) + dx(uy)*dx(vy) + dy(uy)*dy(vy))
-                - p*q*1e-8
-                - p*dx(vx) - p*dy(vy)
-                - dx(ux)*q - dy(uy)*q)
-        - int2d(Th) (fx*vx + fy*vy)
-        + on(1, ux = clx, uy = cly)
-        + on(3, ux = 0.0, uy = 0.0);
-} //EOM
 
 
 macro Streamlines()
@@ -68,6 +61,5 @@ macro Streamlines()
     solve strl(psi, phi) =
         int2d(Th)(dx(psi)*dx(phi) + dy(psi)*dy(phi))
         + int2d(Th)(-phi*(dy(ux)-dx(uy)))
-        + on(1,2,3, psi=0);	
+        + on(D1,D2,D3,D4,N, psi=0);	
 } //EOM
-
