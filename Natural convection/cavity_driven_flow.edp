@@ -3,7 +3,7 @@ include "solvers.edp"
 load "medit"
 
 real Pr = getARGV("--Pr", 1.0);																                                // the Prandtl number
-real Ra = getARGV("--Ra", 100000.0);	                                                          // the Rayleigh number
+real Ra = getARGV("--Ra", 100000.0);	                                                        // the Rayleigh number
 real tf = getARGV("--tf", 0.2);																	                              // the final time
 string outputFolder = getARGV("--resu", "results\cavity_driven_flow");
 int n = getARGV("--n", 100);                                                                  // the number of meshing points
