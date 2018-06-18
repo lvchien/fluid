@@ -34,7 +34,7 @@ macro NavierStokesDC()
         + on(1, u0x = dcx1, u0y = dcy1)
         + on(2, u0x = dcx2, u0y = dcy2)
         + on(3, u0x = dcx3, u0y = dcy3)
-        + on(4, u0x = dcx4, u0y = dcy4)
+        + on(4, u0x = dcx4, u0y = dcy4);
 
     solve NS1 ([ux,uy,p], [vx,vy,q], init=i) =
         int2d(Th)(

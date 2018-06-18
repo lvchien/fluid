@@ -29,9 +29,9 @@ cmd.flush;
 
 // Load computational mesh
 mesh Th;
-string mesh = "meshes/"+meshname+".mesh";
-cout << "Loading mesh " << mesh << "...";
-Th = readmesh(mesh);
+string mname = "meshes/"+meshname+".mesh";
+cout << "Loading mesh " << meshname << "...";
+Th = readmesh(mname);
 cout << "done." << endl;
 cout.flush;
 
