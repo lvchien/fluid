@@ -1,6 +1,6 @@
 include "getARGV.idp"
 
-int config = getARGV("--config", 1);                                        // the case of test (0, 1 and so on)
+int config = getARGV("--config", 1);                                        // the case of test (1,2 and so on)
 string meshname = getARGV("--meshname", "liddriven19");                     // the name of mesh file
 int nn = getARGV("--nn", 100);                                              // number of meshing points
 
@@ -8,11 +8,7 @@ int nn = getARGV("--nn", 100);                                              // n
 
 mesh Th;
 
-if(config == 0)                                                             // Analytical solution
-{
-    Th = square(nn, nn);
-}
-else if(config == 1)                                                        // Lid-driven cavity
+if(config == 1)                                                        // Lid-driven cavity
 {
     border fr1(t=0,1){x=t; y=0; label=2;}
     border fr2(t=0,1){x=1; y=t; label=2;}
