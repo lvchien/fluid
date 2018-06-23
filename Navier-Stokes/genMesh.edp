@@ -19,14 +19,14 @@ if(config == 1)                                                        // Lid-dr
 }
 else if(config == 2)                                                        // Backward facing step
 {
-    border fr0(t=1,0){ x=-2; y=t; label=1;}
-    border fr1(t=-2,0){ x=t; y=0; label=2;}
-    border fr2(t=0,-0.5){ x=0; y=t; label=2;}
-    border fr3(t=0,1){ x=18*t^1.2; y=-0.5; label=2;}
-    border fr4(t=-0.5,1){ x=18; y=t; label=10;}
-    border fr5(t=1,0){ x=-2+20*t; y=1; label=2;}
+    border fr0(t=2,0){ x=-5; y=t; label=1;}
+    border fr1(t=-5,0){ x=t; y=0; label=2;}
+    border fr2(t=0,-1){ x=0; y=t; label=2;}
+    border fr3(t=0,1){ x=15*t^1.3; y=-1; label=2;}
+    border fr4(t=-1,2){ x=15; y=t; label=10;}
+    border fr5(t=1,0){ x=-5+20*t; y=2; label=2;}
     
-    Th= buildmesh(fr0(3*nn)+fr1(20*nn)+fr2(10*nn)+fr3(150*nn)+fr4(5*nn)+fr5(100*nn));
+    Th= buildmesh(fr0(8*nn)+fr1(40*nn)+fr2(10*nn)+fr3(90*nn)+fr4(12*nn)+fr5(100*nn));
 }
 else if(config == 3)                                                       	// Flow around cylinder
 {
