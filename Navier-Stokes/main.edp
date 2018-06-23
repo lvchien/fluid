@@ -61,7 +61,7 @@ if(config == 1)                                 // Lid - driven cavity
 }
 else if(config == 2)                            // Backward facing step
 {
-    dcx1 = 4.0*y*(1-y);
+    dcx1 = 0.5*y*(2-y);
     dcx2 = 0.;
     dcx2 = 0.;
     dcy2 = 0.;
