@@ -26,8 +26,8 @@ where basic options are
 and numerical parameters are listed below:
 ```
 --nu          the constant kinematic viscosity of the fluid (Navier-Stokes only) 
-Pr 						the Prandtl number (natural convection only)
-Ra            the Rayleigh number (natural convection only)
+--Pr          the Prandtl number (natural convection only)
+--Ra          the Rayleigh number (natural convection only)
 --T           the final time (second)
 --dt          the time step (second)
 --sigma       the stabilizing factor of defect-correction method (only for dc = 1 case)
