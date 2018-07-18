@@ -3,14 +3,14 @@ macro NavierStokes()
 {
     solve NS ([ux, uy, p], [vx, vy, q], init = i) =
         int2d(Th)(
-            alpha*(ux*vx + uy*vy)
-            + nu*(dx(ux)*dx(vx) + dy(ux)*dy(vx)+ dx(uy)*dx(vy) + dy(uy)*dy(vy))
-            - p*q*1e-8
-            - p*dx(vx) - p*dy(vy)
-            - dx(ux)*q - dy(uy)*q)
-        - int2d(Th) (fx*vx + fy*vy)
-        - int2d(Th) (alpha*convect([upx,upy], -dt, upx)*vx 
-                    + alpha*convect([upx,upy], -dt, upy)*vy)
+            alpha * (ux * vx + uy * vy)
+            + nu * (dx(ux) * dx(vx) + dy(ux) * dy(vx) + dx(uy) * dx(vy) + dy(uy) * dy(vy))
+            - p * q * 1e-8
+            - p * dx(vx) - p * dy(vy)
+            - dx(ux) * q - dy(uy) * q)
+        - int2d(Th) (fx * vx + fy * vy)
+        - int2d(Th) (alpha * convect([upx,upy], -dt, upx) * vx 
+                    + alpha * convect([upx,upy], -dt, upy) * vy)
         + on(1, ux = dcx1, uy = dcy1)
         + on(2, ux = dcx2, uy = dcy2)
         + on(3, ux = dcx3, uy = dcy3)
@@ -22,32 +22,32 @@ macro NavierStokesDC()
 {
     solve NS0 ([u0x, u0y, p0], [vx, vy, q], init = i) =
         int2d(Th)(
-            alpha*(u0x*vx + u0y*vy)
-            + (nu+sigma*Th.hmax)*(dx(u0x)*dx(vx) + dy(u0x)*dy(vx) + dx(u0y)*dx(vy) + dy(u0y)*dy(vy))
-            - p0*q*1e-8
-            - p0*dx(vx) - p0*dy(vy)
-            - dx(u0x)*q - dy(u0y)*q
+            alpha * (u0x * vx + u0y * vy)
+            + (nu + sigma * Th.hmax) * (dx(u0x) * dx(vx) + dy(u0x) * dy(vx) + dx(u0y) * dx(vy) + dy(u0y) * dy(vy))
+            - p0 * q * 1e-8
+            - p0 * dx(vx) - p0 * dy(vy)
+            - dx(u0x) * q - dy(u0y) * q
             )
-        - int2d(Th) (fx*vx + fy*vy)
-        - int2d(Th) (alpha*convect([upx,upy], -dt, up0x)*vx 
-                    + alpha*convect([upx,upy], -dt, up0y)*vy)
+        - int2d(Th) (fx * vx + fy * vy)
+        - int2d(Th) (alpha * convect([upx,upy], -dt, up0x) * vx 
+                    + alpha * convect([upx,upy], -dt, up0y) * vy)
         + on(1, u0x = dcx1, u0y = dcy1)
         + on(2, u0x = dcx2, u0y = dcy2)
         + on(3, u0x = dcx3, u0y = dcy3)
         + on(4, u0x = dcx4, u0y = dcy4);
 
-    solve NS1 ([ux,uy,p], [vx,vy,q], init=i) =
+    solve NS1 ([ux, uy, p], [vx, vy, q], init = i) =
         int2d(Th)(
-            alpha*(ux*vx + uy*vy)
-            + (nu+sigma*Th.hmax)*(dx(ux)*dx(vx) + dy(ux)*dy(vx) + dx(uy)*dx(vy) + dy(uy)*dy(vy))
-            - p*q*1e-8
-            - p*dx(vx) - p*dy(vy)
-            - dx(ux)*q - dy(uy)*q)
-        - int2d(Th) (fx*vx + fy*vy)
-        - int2d(Th) (alpha*convect([upx,upy], -dt, upx)*vx 
-                    + alpha*convect([upx,upy], -dt, upy)*vy)
+            alpha * (ux * vx + uy * vy)
+            + (nu + sigma * Th.hmax) * (dx(ux) * dx(vx) + dy(ux) * dy(vx) + dx(uy) * dx(vy) + dy(uy) * dy(vy))
+            - p * q * 1e-8
+            - p * dx(vx) - p * dy(vy)
+            - dx(ux) * q - dy(uy) * q)
+        - int2d(Th) (fx * vx + fy * vy)
+        - int2d(Th) (alpha * convect([upx,upy], -dt, upx) * vx 
+                    + alpha * convect([upx,upy], -dt, upy) * vy)
         - int2d(Th) ( 
-            sigma*Th.hmax*(dx(u0x)*dx(vx) + dy(u0x)*dy(vx) + dx(u0y)*dx(vy) + dy(u0y)*dy(vy)) 
+            sigma * Th.hmax * (dx(u0x) * dx(vx) + dy(u0x) * dy(vx) + dx(u0y) * dx(vy) + dy(u0y) * dy(vy)) 
             ) 
         + on(1, ux = dcx1, uy = dcy1)
         + on(2, ux = dcx2, uy = dcy2)
@@ -59,7 +59,7 @@ macro NavierStokesDC()
 macro Streamlines()
 {
     solve strl(psi, phi) =
-        int2d(Th)(dx(psi)*dx(phi) + dy(psi)*dy(phi))
-        + int2d(Th)(-phi*(dy(ux)-dx(uy)))
-        + on(1,2,3,4,10, psi=0);	
+        int2d(Th)(dx(psi) * dx(phi) + dy(psi) * dy(phi))
+        + int2d(Th)(-phi * (dy(ux) - dx(uy)))
+        + on(1, 2, 3, 4, 10, psi = 0);	
 } //EOM
