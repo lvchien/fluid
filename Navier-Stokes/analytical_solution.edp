@@ -21,53 +21,53 @@ iter = [10, 20, 50, 100, 200, 500, 1000, 2000, 5000];                           
 
 for(int j = 0; j <= 8; j++) 
 {
-  for(int k=2;k<=7;k++)
+  for(int k = 2; k <= 7;k ++)
   {
     // Generate square mesh 
     n= 2^k;
-    mesh Th=square(n,n);
+    mesh Th = square(n,n);
 
     // Difine finite element spaces
     fespace Xh(Th,P1b);
     fespace Mh(Th,P1);
 
     // Declare initial solutions (at t = 0) of thermal and velocity
-    Xh ux = -cos(pi*x)*sin(pi*y);
-    Xh uy = sin(pi*x)*cos(pi*y);
+    Xh ux = -cos(pi * x) * sin(pi * y);
+    Xh uy = sin(pi * x) * cos(pi * y);
 
     // Exact solutions of velocity at final time
-    func uxe = -cos(pi*x)*sin(pi*y)*exp(-2*pi^2*tf*nu);
-    func uye = sin(pi*x)*cos(pi*y)*exp(-2*pi^2*tf*nu);
+    func uxe = -cos(pi * x) * sin(pi * y) * exp(-2 * pi^2 * tf * nu);
+    func uye = sin(pi * x) * cos(pi * y) * exp(-2 * pi^2 * tf * nu);
 
     // Declare variables
-    Xh dcx1,dcx2,dcx3,dcx4,dcy1,dcy2,dcy3,dcy4;
-    Xh upx,upy,vx,vy;
+    Xh dcx1, dcx2, dcx3, dcx4, dcy1, dcy2, dcy3, dcy4;
+    Xh upx, upy, vx, vy;
     Xh fx = 0, fy = 0;
-    Mh p,q;
+    Mh p, q;
     real t;
 
     real epsr = 1e-8;
-    real dt = 1.*tf/iter[j];
+    real dt = 1. * tf / iter[j];
     real alpha = 1./dt;
-    int i=0;
+    int i = 0;
 
-    for (i=0;i<=iter[j];i++)
+    for (i = 0;i <= iter[j]; i++)
     {
-      t=i*dt;
+      t = i * dt;
       cout << "Iterations:" << i << "/ " << iter[j] << " with number of mesh points: " << k << endl;
 
       dcx1 = 0.0;
-      dcx2 = sin(pi*y)*exp(-2*pi^2*t*nu);
+      dcx2 = sin(pi * y) * exp(-2 * pi^2 * t * nu);
       dcx3 = 0.0;
-      dcx4 = -sin(pi*y)*exp(-2*pi^2*t*nu);
+      dcx4 = -sin(pi * y) * exp(-2 * pi^2 * t * nu);
 
-      dcy1 = sin(pi*x)*exp(-2*pi^2*t*nu);
+      dcy1 = sin(pi * x) * exp(-2 * pi^2 * t * nu);
       dcy2 = 0.0;
-      dcy3 = -sin(pi*x)*exp(-2*pi^2*t*nu);
+      dcy3 = -sin(pi * x) * exp(-2 * pi^2 * t * nu);
       dcy4 = 0.0;
 
-      upx=ux;
-      upy=uy;
+      upx = ux;
+      upy = uy;
       NavierStokes;
     }
 
@@ -76,9 +76,9 @@ for(int j = 0; j <= 8; j++)
     errup2 = erru2;
     errup1 = erru1;
     errup0 = erru0;
-    erru2 = sqrt(int2d(Th)(dux*dux + duy*duy + nu*dt*(dx(dux)*dx(dux) + dy(dux)*dy(dux) + dx(duy)*dx(duy) + dy(duy)*dy(duy))));
-    erru1 = sqrt(int2d(Th)(dux*dux + duy*duy + (dx(dux)*dx(dux) + dy(dux)*dy(dux) + dx(duy)*dx(duy) + dy(duy)*dy(duy))));
-    erru0 = sqrt(int2d(Th)(dux*dux + duy*duy));
+    erru2 = sqrt(int2d(Th)(dux * dux + duy * duy + nu * dt * (dx(dux) * dx(dux) + dy(dux) * dy(dux) + dx(duy) * dx(duy) + dy(duy) * dy(duy))));
+    erru1 = sqrt(int2d(Th)(dux * dux + duy * duy + (dx(dux) * dx(dux) + dy(dux) * dy(dux) + dx(duy) * dx(duy) + dy(duy) * dy(duy))));
+    erru0 = sqrt(int2d(Th)(dux * dux + duy * duy));
 
     // Print to output file
     re  << nu << "\t" << tf << "\t" << k << "\t"  << Th.hmax << "\t" << dt 

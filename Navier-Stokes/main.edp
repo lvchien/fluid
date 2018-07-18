@@ -7,7 +7,7 @@ int config = getARGV("--config", 1);                        // the case of test 
 string meshname = getARGV("--meshname", "liddriven19");     // the name of mesh file
 int dc = getARGV("--dc", 1);                                // the config of DC methods (1 for DC or 0 for non-DC)
 real nu = getARGV("--nu", 1e-3);                            // the constant kinematic viscosity of the fluid
-real T = getARGV("--T", 100.0);                               // the final time (second)
+real T = getARGV("--T", 100.0);                             // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 int save = getARGV("--save", 0);                            // save results to .sol files configuration (1 for save, 0 for non-save)
 int ns = getARGV("--ns", 100);                              // number of steps to save results once
@@ -29,14 +29,14 @@ cmd.flush;
 
 // Load computational mesh
 mesh Th;
-string mname = "meshes/"+meshname+".mesh";
+string mname = "meshes/" + meshname + ".mesh";
 cout << "Loading mesh " << meshname << "...";
 Th = readmesh(mname);
 cout << "done." << endl;
 cout.flush;
 
 
-real sigma = getARGV("--sigma", 0.4*Th.hmax);                               // the stabilizing factor of defect-correction method
+real sigma = getARGV("--sigma", 0.4 * Th.hmax);                             // the stabilizing factor of defect-correction method
 
 
 // Finite element spaces
@@ -47,7 +47,7 @@ fespace Mh(Th,P1);                                                          // d
 // Declare variables
 Xh ux, uy, vx, vy, upx, upy, u0x, u0y, up0x, up0y;
 Xh dcx1, dcx2, dcx3, dcx4, dcy1, dcy2, dcy3, dcy4, w, psi, phi;
-Mh p,q, p0;
+Mh p, q, p0;
 Xh fx = 0.0, fy = 0.0;
 
 
@@ -70,18 +70,18 @@ else if (config == 3)                           // Flow around cylinder
 {                     
     real D = 0.1, H = 0.41;
     real Um = getARGV("--Um", 1.5);
-    dcx1 = 4.*Um*y*(H-y)/(H^2);
+    dcx1 = 4. * Um * y * (H - y) / (H^2);
     dcy1 = 0.;
     dcx2 = 0.;
     dcy2 = 0.;
     int nn = getARGV("--nn", 30);               // number of meshing points                  
-    dt = D/nn/Um;
+    dt = D / nn / Um;
 }
 
 
-real alpha = 1.0/dt;
+real alpha = 1.0 / dt;
 int i = 0;
-int imax = T/dt;
+int imax = T / dt;
 
 
 for (i = 1; i <= imax; i++)
@@ -91,9 +91,9 @@ for (i = 1; i <= imax; i++)
     up0x = u0x;
     up0y = u0y;
 
-    if(dc==0)
+    if(dc == 0)
         NavierStokes;
-    if(dc==1)
+    if(dc == 1)
         NavierStokesDC;
         
     Streamlines;
@@ -101,24 +101,24 @@ for (i = 1; i <= imax; i++)
 
     if(i % 10 == 0)
     {
-        plot([ux, uy], cmm="Velocity: iteration "+i+"/"+imax);
-        plot(p, cmm="Pressure: iteration "+i+"/"+imax);	
-        plot(w, cmm="Vorticity: iteration "+i+"/"+imax);		
-        plot(psi, cmm="Streamlines: iteration "+i+"/"+imax);			
+        plot([ux, uy], cmm = "Velocity: iteration " + i + "/" + imax);
+        plot(p, cmm = "Pressure: iteration " + i + "/" + imax);	
+        plot(w, cmm = "Vorticity: iteration " + i + "/" + imax);		
+        plot(psi, cmm = "Streamlines: iteration " + i + "/" + imax);			
     }
     if(i % ns == 0 && save == 1)
     {
-        savesol(outputFolder+"/velocity." + i/ns + ".sol", Th, [ux, uy]);	
-        savemesh(Th, outputFolder + "/velocity."+ i/ns +".mesh");	
+        savesol(outputFolder + "/velocity." + i/ns + ".sol", Th, [ux, uy]);	
+        savemesh(Th, outputFolder + "/velocity." + i/ns + ".mesh");	
 
-        savesol(outputFolder+"/pressure." + i/ns +".sol", Th, p);
-        savemesh(Th, outputFolder + "/pressure."+ i/ns +".mesh");
+        savesol(outputFolder + "/pressure." + i/ns + ".sol", Th, p);
+        savemesh(Th, outputFolder + "/pressure." + i/ns + ".mesh");
 
-        savesol(outputFolder+"/vorticity." + i/ns + ".sol", Th, w);
-        savemesh(Th, outputFolder + "/vorticity."+ i/ns +".mesh");
+        savesol(outputFolder + "/vorticity." + i/ns + ".sol", Th, w);
+        savemesh(Th, outputFolder + "/vorticity." + i/ns +".mesh");
 
-        savesol(outputFolder+"/streamlines." + i/ns + ".sol", Th, psi);
-        savemesh(Th, outputFolder + "/streamlines."+ i/ns +".mesh");
+        savesol(outputFolder + "/streamlines." + i/ns + ".sol", Th, psi);
+        savemesh(Th, outputFolder + "/streamlines." + i/ns + ".mesh");
     }
 }
 
@@ -129,16 +129,16 @@ int nbp = getARGV("--nbp", 100);                            // the number of poi
 if (config == 1)
 {
     // Get velocity of flow at points in vertical and horizontal lines that pass center of cavity
-    real dd = 1.0/nbp;
+    real dd = 1.0 / nbp;
 
     ofstream fxprof(outputFolder + "/xprof");
     for(i = 0; i <= nbp; i++)
-        fxprof << i*dd << " " << ux(0.5, i*dd) << endl;
+        fxprof << i * dd << " " << ux(0.5, i * dd) << endl;
     fxprof.flush;
 
     ofstream fyprof(outputFolder + "/yprof");
     for(i = 0; i <= nbp; i++)
-        fyprof << i*dd << " " << uy(i*dd, 0.5)  << endl;
+        fyprof << i * dd << " " << uy(i * dd, 0.5)  << endl;
     fyprof.flush;
 
 
@@ -160,8 +160,8 @@ if (config == 1)
     for (int j = 1; j <= ni; j++)
         for(int k = 1; k <= ni; k++)
         {
-            real tempx = minx + j*slx;
-            real tempy = miny + k*sly;
+            real tempx = minx + j * slx;
+            real tempy = miny + k * sly;
             real tempu = ux(tempx, tempy)^2 + uy(tempx, tempy)^2;
             if(tempu < minu)
                 {
