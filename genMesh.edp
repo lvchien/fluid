@@ -1,0 +1,57 @@
+include "getARGV.idp"
+
+int config = getARGV("--config", 1);                                        // 1: Navier-Stokes, 2: Natural convection
+int testcase = getARGV("--testcase", 1);                                     // the case of test
+string meshname = getARGV("--meshname", "");                     // the name of mesh file
+int nn = getARGV("--nn", 100);                                              // number of meshing points
+
+// set label = 10 for Neumann boundary, 1,..., 9 for Dirichlet boundary
+
+mesh Th;
+
+if(config == 1)
+{
+    if(testcase == 1)                                                           // Lid-driven cavity
+    {
+        border fr1(t = 0, 1){x = t; y = 0; label = 2;}
+        border fr2(t = 0, 1){x = 1; y = t; label = 2;}
+        border fr3(t = 1, 0){x = t; y = 1; label = 1;}
+        border fr4(t = 1, 0){x = 0; y = t; label = 2;}
+
+        Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    }
+    else if(testcase== 2)                                                       // Backward facing step
+    {
+        border fr0(t = 2, 0){x = -5; y = t; label = 1;}
+        border fr1(t = -5, 0){x = t; y = 0; label = 2;}
+        border fr2(t = 0, -1){x = 0; y = t; label = 2;}
+        border fr3(t = 0, 1){x = 15 * t; y = -1; label = 2;}
+        border fr4(t = -1, 2){x = 15; y = t; label = 10;}
+        border fr5(t = 1, 0){x = -5 + 20 * t; y = 2; label = 2;}
+        
+        Th = buildmesh(fr0(8 * nn) + fr1(40 * nn) + fr2(10 * nn) + fr3(90 * nn) + fr4(12 * nn) + fr5(100 * nn));
+    }
+    else if(testcase == 3)                                                      // Flow around cylinder
+    {
+        real D = 0.1, H = 0.41, L = 2.2;
+        real cx0 = 0.2, cy0 = 0.2;                                              // center of cylinder
+
+        border fr1(t = 0, L){x = t; y = 0; label = 2;}
+        border fr2(t = 0, H){x = L; y = t; label = 10;}
+        border fr3(t = L, 0){x = t; y = H; label = 2;}
+        border fr4(t = H, 0){x = 0; y = t; label = 1;}
+        border fr5(t = 1, 0){x = cx0 + D * sin(2 * pi * t)/2; y = cy0 + D * cos(2 * pi * t)/2; label = 3;}
+
+        Th = buildmesh(fr1(5 * nn) + fr2(nn) + fr3(5 * nn) + fr4(nn) + fr5(-3 * nn));         // ff doc P.270
+    }
+}
+else if(config == 2)                                                            
+{
+    if(testcase == 1)                                                           // thermal driven cavity
+    {
+        Th = square(nn,nn);
+    }
+}
+
+savemesh(Th, "meshes/" + meshname + ".mesh");
+plot(Th);

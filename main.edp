@@ -3,15 +3,21 @@ include "solvers.edp"
 load "medit";
 
 // Config parameters
-int config = getARGV("--config", 1);                        // the case of test (1, 2 and so on)
+int config = getARGV("--config", 1);                        // 1: Navier-Stokes, 2: Natural convection
+int testcase = getARGV("--testcase", 1);                    // the case of test (1, 2 and so on)
 string meshname = getARGV("--meshname", "liddriven19");     // the name of mesh file
 int dc = getARGV("--dc", 1);                                // the config of DC methods (1 for DC or 0 for non-DC)
-real nu = getARGV("--nu", 1e-3);                            // the constant kinematic viscosity of the fluid
+real nu = getARGV("--nu", 1e-3);                            // the constant kinematic viscosity of the fluid (Navier-Stokes only) 
+real Pr = getARGV("--Pr", 1.0);							    // the Prandtl number (natural convection only)
+real Ra = getARGV("--Ra", 100000.0);	                    // the Rayleigh number (natural convection only)
 real T = getARGV("--T", 100.0);                             // the final time (second)
 real dt = getARGV("--dt", 0.01);;                           // the time step (second)
 int save = getARGV("--save", 0);                            // save results to .sol files configuration (1 for save, 0 for non-save)
 int ns = getARGV("--ns", 100);                              // number of steps to save results once
+int bc = 1;                                                 // boundary conditions (0 for Direchlet all, others for mixed Direchlet + Neumann -  Natural convection only)    
 
+if(config == 2) 
+    nu = Pr;
 
 // Make output
 string outputFolder = getARGV("--resu", "results\Lid_driven_cavity");
@@ -36,7 +42,7 @@ cout << "done." << endl;
 cout.flush;
 
 
-real sigma = getARGV("--sigma", 0.4 * Th.hmax);                             // the stabilizing factor of defect-correction method
+real sigma = getARGV("--sigma", 0.4 * Th.hmax);                             // the stabilizing factor of defect-correction method (DC only)
 
 
 // Finite element spaces
@@ -46,36 +52,61 @@ fespace Mh(Th,P1);                                                          // d
 
 // Declare variables
 Xh ux, uy, vx, vy, upx, upy, u0x, u0y, up0x, up0y;
+Xh T, Tp, Tau;
 Xh dcx1, dcx2, dcx3, dcx4, dcy1, dcy2, dcy3, dcy4, w, psi, phi;
+Xh tbc1, tbc2, tbc3, tbc4;
 Mh p, q, p0;
-Xh fx = 0.0, fy = 0.0;
+Xh fx = 0.0, fy = 0.0, Q = 0.0;
 
 
 // Set boundary conditions
-if(config == 1)                                 // Lid - driven cavity
+if(config == 1)
 {
-    dcx1 = 1.;
-    dcy1 = 0.;
-    dcx2 = 0.;
-    dcy2 = 0.;
+    if(testcase == 1)                                 // Lid - driven cavity
+    {
+        dcx1 = 1.;
+        dcy1 = 0.;
+        dcx2 = 0.;
+        dcy2 = 0.;
+    }
+    else if(testcase == 2)                            // Backward facing step
+    {
+        dcx1 = 0.5 * y * (2 - y);
+        dcx2 = 0.;
+        dcx2 = 0.;
+        dcy2 = 0.;
+    }
+    else if (testcase == 3)                           // Flow around cylinder
+    {                     
+        real D = 0.1, H = 0.41;
+        real Um = getARGV("--Um", 1.5);
+        dcx1 = 4. * Um * y * (H - y) / (H^2);
+        dcy1 = 0.;
+        dcx2 = 0.;
+        dcy2 = 0.;
+        int nn = getARGV("--nn", 30);               // number of meshing points                  
+        dt = D / nn / Um;
+    }
 }
-else if(config == 2)                            // Backward facing step
+else if(config == 2)
 {
-    dcx1 = 0.5*y*(2-y);
-    dcx2 = 0.;
-    dcx2 = 0.;
-    dcy2 = 0.;
-}
-else if (config == 3)                           // Flow around cylinder
-{                     
-    real D = 0.1, H = 0.41;
-    real Um = getARGV("--Um", 1.5);
-    dcx1 = 4. * Um * y * (H - y) / (H^2);
-    dcy1 = 0.;
-    dcx2 = 0.;
-    dcy2 = 0.;
-    int nn = getARGV("--nn", 30);               // number of meshing points                  
-    dt = D / nn / Um;
+    if(testcase == 1)                               // Thermal driven cavity
+    {
+        dcx1 = 0.;
+        dcx2 = 0.;
+        dcx3 = 0.;
+        dcx4 = 0.;
+        dcy1 = 0.;
+        dcy2 = 0.;
+        dcy3 = 0.;
+        dcy4 = 0.;
+        tbc1 = 0.;
+        tbc2 = -0.5;
+        tbc3 = 0.;
+        tbc4 = 0.5;
+        fx = 0;
+        fy = Ra * Pr * T;
+    }
 }
 
 
@@ -83,18 +114,30 @@ real alpha = 1.0 / dt;
 int i = 0;
 int imax = T / dt;
 
+// Main code
 
 for (i = 1; i <= imax; i++)
 {
     upx = ux;
     upy = uy;
-    up0x = u0x;
-    up0y = u0y;
-
-    if(dc == 0)
-        NavierStokes;
     if(dc == 1)
-        NavierStokesDC;
+    {
+        up0x = u0x;
+        up0y = u0y;
+    }
+
+    if(config == 1)
+    {
+        if(dc == 0)
+            NavierStokes;
+        if(dc == 1)
+            NavierStokesDC;
+    }
+    else if(config == 2)
+    {
+        Tp = T;
+        NaturalConvection;
+    }
         
     Streamlines;
     w = -dy(ux) + dx(uy);
@@ -104,9 +147,15 @@ for (i = 1; i <= imax; i++)
         plot([ux, uy], cmm = "Velocity: iteration " + i + "/" + imax);
         plot(p, cmm = "Pressure: iteration " + i + "/" + imax);	
         plot(w, cmm = "Vorticity: iteration " + i + "/" + imax);		
-        plot(psi, cmm = "Streamlines: iteration " + i + "/" + imax);			
+        plot(psi, cmm = "Streamlines: iteration " + i + "/" + imax);	
+
+        if(config == 2)
+        {
+            plot(T, cmm = "Thermal: iteration " + i + "/" + imax);
+        }		
     }
-    if(i % ns == 0 && save == 1)
+
+    if(save == 1 && i % ns == 0)
     {
         savesol(outputFolder + "/velocity." + i/ns + ".sol", Th, [ux, uy]);	
         savemesh(Th, outputFolder + "/velocity." + i/ns + ".mesh");	
@@ -119,6 +168,12 @@ for (i = 1; i <= imax; i++)
 
         savesol(outputFolder + "/streamlines." + i/ns + ".sol", Th, psi);
         savemesh(Th, outputFolder + "/streamlines." + i/ns + ".mesh");
+
+        if(config == 2)
+        {
+            savesol(outputFolder + "/thermal." + i/ns + ".sol", Th, T);
+            savemesh(Th, outputFolder + "/thermal." + i/ns + ".mesh");
+        }
     }
 }
 
@@ -126,7 +181,7 @@ for (i = 1; i <= imax; i++)
 // Only for Lid-driven cavity test
 int nbp = getARGV("--nbp", 100);                            // the number of points in vertical and horizontal lines
 
-if (config == 1)
+if (config == 1 && testcase == 1)
 {
     // Get velocity of flow at points in vertical and horizontal lines that pass center of cavity
     real dd = 1.0 / nbp;
@@ -174,4 +229,14 @@ if (config == 1)
     ofstream ct(outputFolder + "/center.txt");
     ct << centerx << " " << centery  << endl;
     ct.flush;
+}
+
+
+// Only for Thermal driven cavity test
+
+if(config == 2 && testcase == 1)
+{
+    ofstream re(outputFolder + "/maxvelocity." + tf + ".txt");
+    Xh u_norm = sqrt(ux^2 + uy^2);
+    re << u_norm[].max << endl;
 }

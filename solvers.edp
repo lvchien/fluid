@@ -56,6 +56,29 @@ macro NavierStokesDC()
 } // EOM
 
 
+macro NaturalConvection()
+{
+    if (bc == 0)
+        solve thermalDirichlet (T, v, init = i) =
+            int2d(Th) (alpha * (T * v) + (dx(T) * dx(v) + dy(T) * dy(v)))
+            - int2d(Th) (Q * v)
+            - int2d(Th) (alpha * convect([up1,up2], -dt, Told) * v)
+            + on(1,T=tbc1)
+            + on(2,T=tbc2)
+            + on(3,T=tbc3)
+            + on(4,T=tbc4);
+    else
+        solve thermalMixed (T,v,init=i) =
+            int2d(Th) (alpha*(T*v) + (dx(T)*dx(v) + dy(T)*dy(v)))
+            - int2d(Th) (Q*v)
+            - int2d(Th) (alpha*convect([up1,up2],-dt,Told)*v)
+            + on(2,T = tbc2)
+            + on(4,T = tbc4);
+
+    NavierStokes;
+ } //EOM
+
+
 macro Streamlines()
 {
     solve strl(psi, phi) =
