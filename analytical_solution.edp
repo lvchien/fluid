@@ -7,7 +7,6 @@ real Pr = getARGV("--Pr", 1.0);																                                 
 real Ra = 1.0;                                                                                  // the Rayleigh number (Natural convection only)
 real tf = getARGV("--tf", 1.0/320);																	                            // the final time
 string filename = getARGV("--filename", "convergence");
-int bc = 0;                                                                                     // ??CHECK?? boundary conditions (0 for Direchlet all, others for mixed Direchlet + Neumann)    
 
 if(config == 2)
   nu = Pr;

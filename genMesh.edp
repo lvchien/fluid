@@ -1,17 +1,18 @@
 include "getARGV.idp"
 
 int config = getARGV("--config", 1);                                        // 1: Navier-Stokes, 2: Natural convection
-int testcase = getARGV("--testcase", 1);                                     // the case of test
-string meshname = getARGV("--meshname", "");                     // the name of mesh file
+int testcase = getARGV("--testcase", 1);                                    // the case of test
+string meshname = getARGV("--meshname", "");                                // the name of mesh file
 int nn = getARGV("--nn", 100);                                              // number of meshing points
 
-// set label = 10 for Neumann boundary, 1,..., 9 for Dirichlet boundary
+/* set label : 1,..., 9 for both velocity and thermal Dirichlet boundary, 
+                10 for velocity Neumann boundary, 
+                20 for thermal Neumann boundary */
 
 mesh Th;
-
 if(config == 1)
 {
-    if(testcase == 1)                                                           // Lid-driven cavity
+    if(testcase == 1)                                                          // Lid-driven cavity
     {
         border fr1(t = 0, 1){x = t; y = 0; label = 2;}
         border fr2(t = 0, 1){x = 1; y = t; label = 2;}
@@ -49,7 +50,21 @@ else if(config == 2)
 {
     if(testcase == 1)                                                           // thermal driven cavity
     {
-        Th = square(nn,nn);
+        border fr1(t = 0, 1){x = t; y = 0.0; label = 20;}
+        border fr2(t = 0, 1){x = 1.0; y = t; label = 2;}
+        border fr3(t = 1, 0){x = t; y = 1.0; label = 20;}
+        border fr4(t = 1, 0){x = 0.0; y = t; label = 4;}
+
+        Th = buildmesh(fr1(nn) + fr2(nn) + fr3(nn) + fr4(nn));
+    }
+    else if(testcase == 2)                                                      // Benard test case
+    {
+        border fr1(t = 0, 5){x = t; y = 0.0; label = 1;}
+        border fr2(t = 0, 1){x = 5.0; y = t; label = 20;}
+        border fr3(t = 5, 0){x = t; y = 1.0; label = 3;}
+        border fr4(t = 1, 0){x = 0.0; y = t; label = 20;}
+
+        Th = buildmesh(fr1(5 * nn) + fr2(nn) + fr3(5 * nn) + fr4(nn));
     }
 }
 
