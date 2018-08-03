@@ -62,7 +62,7 @@ macro NavierStokes()
 macro NaturalConvection()
 {
     solve thermal (T, Tau, init = i) =
-        int2d(Th) (alpha * (T * Tau) + (dx(T) * dx(Tau) + dy(T) * dy(Tau)))
+        int2d(Th) (alpha * T * Tau + dx(T) * dx(Tau) + dy(T) * dy(Tau))
         - int2d(Th) (Q * Tau)
         - int2d(Th) (alpha * convect([upx, upy], -dt, Tp) * Tau)
         + on(1, T = tbc1)
