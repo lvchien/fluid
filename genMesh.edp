@@ -5,11 +5,12 @@ int testcase = getARGV("--testcase", 1);                                    // t
 string meshname = getARGV("--meshname", "");                                // the name of mesh file
 int nn = getARGV("--nn", 100);                                              // number of meshing points
 
-/* set label : 1,..., 9 for both velocity and thermal Dirichlet boundary, 
-                10 for velocity Neumann boundary, 
+/* set label : 1,..., 9 for both velocity and thermal Dirichlet boundary,
+                10 for velocity Neumann boundary,
                 20 for thermal Neumann boundary */
 
 mesh Th;
+
 if(config == 1)
 {
     if(testcase == 1)                                                          // Lid-driven cavity
@@ -29,7 +30,7 @@ if(config == 1)
         border fr3(t = 0, 1){x = 15 * t; y = -1; label = 2;}
         border fr4(t = -1, 2){x = 15; y = t; label = 10;}
         border fr5(t = 1, 0){x = -5 + 20 * t; y = 2; label = 2;}
-        
+
         Th = buildmesh(fr0(8 * nn) + fr1(40 * nn) + fr2(10 * nn) + fr3(90 * nn) + fr4(12 * nn) + fr5(100 * nn));
     }
     else if(testcase == 3)                                                      // Flow around cylinder
@@ -46,7 +47,7 @@ if(config == 1)
         Th = buildmesh(fr1(5 * nn) + fr2(nn) + fr3(5 * nn) + fr4(nn) + fr5(-3 * nn));         // ff doc P.270
     }
 }
-else if(config == 2)                                                            
+else if(config == 2)
 {
     if(testcase == 1)                                                           // thermal driven cavity
     {
